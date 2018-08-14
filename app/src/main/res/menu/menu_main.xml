@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.playbasis.pb.mobilephonescb.presentation.main.MainActivity">
+
+    <item
+
+        android:id="@+id/action_menus"
+        android:title=" ">
+
+            <item
+                android:id="@+id/one"
+                android:orderInCategory="100"
+                android:title="Price high to low"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/two"
+                android:title="Price low to high"
+                android:orderInCategory="100"/>
+            <item
+                android:id="@+id/three"
+                android:title="Rating 5-1"
+                android:orderInCategory="100"/>
+    </item>
+
+
+</menu>

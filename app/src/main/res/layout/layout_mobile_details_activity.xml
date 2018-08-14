@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.playbasis.pb.mobilephonescb.presentation.detail.MobileDetailViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/linearlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <TextView
+                    android:id="@+id/d_mobile_name"
+                    android:layout_width="172dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@{viewmodel.name}"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:text="Moto E4 Plus" />
+
+                <TextView
+                    android:id="@+id/d_mobile_brand"
+                    android:layout_width="93dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/d_mobile_name"
+                    android:layout_alignEnd="@+id/d_mobile_image"
+                    android:layout_below="@+id/d_mobile_image"
+                    android:layout_marginTop="12dp"
+                    android:text="@{viewmodel.brand}"
+                    android:textAlignment="center"
+                    android:visibility="visible"
+                    tools:text="Samsung" />
+
+                <TextView
+                    android:id="@+id/d_mobile_description"
+                    android:layout_width="354dp"
+                    android:layout_height="333dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_below="@+id/d_mobile_image"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@{viewmodel.description}"
+                    android:textAlignment="center"
+                    tools:text="Motorola's Moto G5, a former best cheap phone in the world, has slipped a few places thanks to better priced alternatives, plus the introduction of the new G5S. The Moto G5 comes with a metal design, 1080p display and fingerprint scanner. You won't get the fastest chipset on this list or NFC with the Moto G5, but as an all-round product the cheap Motorola phone will serve you well." />
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+
+</layout>
+
