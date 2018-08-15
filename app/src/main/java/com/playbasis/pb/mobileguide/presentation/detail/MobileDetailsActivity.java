@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import com.playbasis.pb.mobileguide.data.entity.Image;
 import com.playbasis.pb.mobileguide.R;
 import com.playbasis.pb.mobileguide.data.remote.Api;
+import com.playbasis.pb.mobileguide.data.remote.MobileRemoteDataStore;
 import com.playbasis.pb.mobileguide.data.remote.ServiceFactory;
 import com.playbasis.pb.mobileguide.databinding.LayoutMobileDetailsActivityBinding;
 
@@ -43,10 +44,8 @@ public class MobileDetailsActivity extends AppCompatActivity implements IMobileD
         binding.recyclerView.setItemAnimator(new DefaultItemAnimator());
         binding.recyclerView.setAdapter((RecyclerView.Adapter) imageAdapter);
 
-        Api api = ServiceFactory.getRetrofit().create(Api.class);
-        presenter = new MobileDetailPresenter(this, api);
+        presenter = new MobileDetailPresenter(this, new MobileRemoteDataStore());
         String id = getIntent().getStringExtra("id");
-
         presenter.callWebService(id);
 
     }

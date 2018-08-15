@@ -12,11 +12,11 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-public class MobileDataStore {
+public class MobileLocalDataStore {
 
     Realm realm;
 
-    public MobileDataStore(Context context) {
+    public MobileLocalDataStore(Context context) {
         Realm.init(context);
         RealmConfiguration realmConfig = new RealmConfiguration.Builder()
                 .name("mobile.realm")

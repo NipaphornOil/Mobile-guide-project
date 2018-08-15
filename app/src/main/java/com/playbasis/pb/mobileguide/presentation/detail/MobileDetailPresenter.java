@@ -2,6 +2,7 @@ package com.playbasis.pb.mobileguide.presentation.detail;
 
 import com.playbasis.pb.mobileguide.data.entity.Image;
 import com.playbasis.pb.mobileguide.data.remote.Api;
+import com.playbasis.pb.mobileguide.data.remote.MobileRemoteDataStore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,32 +14,24 @@ import retrofit2.Response;
 public class MobileDetailPresenter implements IMobileDetail.Presenter{
 
     private IMobileDetail.View view;
-    private ArrayList<Image> imageArrayList = new ArrayList<>();
-    private Api api;
+    private MobileRemoteDataStore mobileRemoteDataStore;
 
-
-    public MobileDetailPresenter(IMobileDetail.View view, Api api) {
+    public MobileDetailPresenter(IMobileDetail.View view, MobileRemoteDataStore mobileRemoteDataStore) {
         this.view = view;
-        this.api = api;
+        this.mobileRemoteDataStore = mobileRemoteDataStore;
     }
 
     @Override
     public void callWebService(String id) {
 
-        Call<List<Image>> call = api.getImageSlide(id);
-        call.enqueue(new Callback<List<Image>>() {
+        mobileRemoteDataStore.getImages(id, new MobileRemoteDataStore.MobileDataResult<Image>() {
             @Override
-            public void onResponse(Call<List<Image>> call, Response<List<Image>> response) {
-
-                List<Image> images = response.body();
-                imageArrayList.addAll(images);
-
-                view.populateList(imageArrayList);
-
+            public void onSuccess(ArrayList<Image> result) {
+                view.populateList(result);
             }
 
             @Override
-            public void onFailure(Call<List<Image>> call, Throwable t) {
+            public void onError(String error) {
 
             }
         });

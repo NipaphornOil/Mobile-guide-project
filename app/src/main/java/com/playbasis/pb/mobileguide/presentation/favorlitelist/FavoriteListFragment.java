@@ -13,23 +13,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.playbasis.pb.mobileguide.R;
 import com.playbasis.pb.mobileguide.data.entity.Mobile;
-import com.playbasis.pb.mobileguide.data.local.MobileDataStore;
-import com.playbasis.pb.mobileguide.data.remote.Api;
-import com.playbasis.pb.mobileguide.data.remote.ServiceFactory;
+import com.playbasis.pb.mobileguide.data.local.MobileLocalDataStore;
 import com.playbasis.pb.mobileguide.databinding.LayoutFavoritelistFragmentBinding;
 import com.playbasis.pb.mobileguide.presentation.detail.MobileDetailsActivity;
-import com.playbasis.pb.mobileguide.presentation.mobilelist.MobileListPresenter;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class FavoriteListFragment extends Fragment implements IFavoriteList.View {
 
@@ -59,7 +50,7 @@ public class FavoriteListFragment extends Fragment implements IFavoriteList.View
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter = new FavoriteListPresenter(this, new MobileDataStore(getActivity()));
+        presenter = new FavoriteListPresenter(this, new MobileLocalDataStore(getActivity()));
 
         favoriteAdapter = new FavoriteAdapter(favoriteArrayList, new FavoriteAdapter.ClickListener() {
             @Override

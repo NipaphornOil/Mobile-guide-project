@@ -1,7 +1,6 @@
 package com.playbasis.pb.mobileguide.presentation.mobilelist;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -16,7 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.playbasis.pb.mobileguide.data.entity.Mobile;
-import com.playbasis.pb.mobileguide.data.local.MobileDataStore;
+import com.playbasis.pb.mobileguide.data.local.MobileLocalDataStore;
+import com.playbasis.pb.mobileguide.data.remote.MobileRemoteDataStore;
 import com.playbasis.pb.mobileguide.data.remote.ServiceFactory;
 import com.playbasis.pb.mobileguide.databinding.LayoutMobilelistFragmentBinding;
 import com.playbasis.pb.mobileguide.presentation.detail.MobileDetailsActivity;
@@ -24,15 +24,6 @@ import com.playbasis.pb.mobileguide.R;
 import com.playbasis.pb.mobileguide.data.remote.Api;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MobileListFragment extends Fragment implements IMobileList.View {
 
@@ -53,9 +44,7 @@ public class MobileListFragment extends Fragment implements IMobileList.View {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Api api = ServiceFactory.getRetrofit().create(Api.class);
-
-        presenter = new MobileListPresenter(this, new MobileDataStore(getActivity()), api);
+        presenter = new MobileListPresenter(this, new MobileLocalDataStore(getActivity()), new MobileRemoteDataStore());
 
         mobileAdapter = new MobileAdapter(mobilesList, new MobileAdapter.ClickListener() {
             @Override
