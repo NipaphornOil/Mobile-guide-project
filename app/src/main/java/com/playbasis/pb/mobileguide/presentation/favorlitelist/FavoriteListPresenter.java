@@ -1,28 +1,21 @@
 package com.playbasis.pb.mobileguide.presentation.favorlitelist;
 
 import com.playbasis.pb.mobileguide.data.entity.Mobile;
-import com.playbasis.pb.mobileguide.data.local.MobileDataStore;
-import com.playbasis.pb.mobileguide.data.remote.Api;
-import com.playbasis.pb.mobileguide.presentation.mobilelist.MobileListPresenter;
+import com.playbasis.pb.mobileguide.data.local.MobileLocalDataStore;
 
 
 import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class FavoriteListPresenter implements IFavoriteList.Presenter {
 
     private IFavoriteList.View view;
-    private MobileDataStore mobileDataStore;
+    private MobileLocalDataStore mobileLocalDataStore;
     private ArrayList<Mobile> favoriteArrayList = new ArrayList<>();
 
 
-    public FavoriteListPresenter(IFavoriteList.View view, MobileDataStore mobileDataStore) {
+    public FavoriteListPresenter(IFavoriteList.View view, MobileLocalDataStore mobileLocalDataStore) {
         this.view = view;
-        this.mobileDataStore = mobileDataStore;
+        this.mobileLocalDataStore = mobileLocalDataStore;
 
 
     }
@@ -31,7 +24,7 @@ public class FavoriteListPresenter implements IFavoriteList.Presenter {
     public void getFavoriteMobiles() {
 
         favoriteArrayList.clear();
-        favoriteArrayList.addAll(mobileDataStore.getFavoriteMobile());
+        favoriteArrayList.addAll(mobileLocalDataStore.getFavoriteMobile());
 
         view.populateList(favoriteArrayList);
 
@@ -42,7 +35,7 @@ public class FavoriteListPresenter implements IFavoriteList.Presenter {
     public void getFavoriteMobileByPriceAscending() {
 
         favoriteArrayList.clear();
-        favoriteArrayList.addAll(mobileDataStore.getFavoriteMobileByPriceAscending());
+        favoriteArrayList.addAll(mobileLocalDataStore.getFavoriteMobileByPriceAscending());
 
         view.populateList(favoriteArrayList);
 
@@ -52,7 +45,7 @@ public class FavoriteListPresenter implements IFavoriteList.Presenter {
     public void getFavoriteMobileByPriceDescending() {
 
         favoriteArrayList.clear();
-        favoriteArrayList.addAll(mobileDataStore.getFavoriteMobileByPriceDescending());
+        favoriteArrayList.addAll(mobileLocalDataStore.getFavoriteMobileByPriceDescending());
 
         view.populateList(favoriteArrayList);
 
@@ -62,7 +55,7 @@ public class FavoriteListPresenter implements IFavoriteList.Presenter {
     public void getFavoriteByRating() {
 
         favoriteArrayList.clear();
-        favoriteArrayList.addAll(mobileDataStore.getFavoriteByRating());
+        favoriteArrayList.addAll(mobileLocalDataStore.getFavoriteByRating());
 
         view.populateList(favoriteArrayList);
 

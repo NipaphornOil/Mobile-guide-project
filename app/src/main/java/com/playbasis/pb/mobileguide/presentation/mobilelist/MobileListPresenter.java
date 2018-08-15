@@ -1,9 +1,9 @@
 package com.playbasis.pb.mobileguide.presentation.mobilelist;
 
 import com.playbasis.pb.mobileguide.data.entity.Mobile;
-import com.playbasis.pb.mobileguide.data.local.MobileDataStore;
+import com.playbasis.pb.mobileguide.data.local.MobileLocalDataStore;
 import com.playbasis.pb.mobileguide.data.remote.Api;
-import com.playbasis.pb.mobileguide.data.remote.ServiceFactory;
+import com.playbasis.pb.mobileguide.data.remote.MobileRemoteDataStore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,20 +15,20 @@ import retrofit2.Response;
 public class MobileListPresenter implements IMobileList.Presenter {
 
     private IMobileList.View view;
-    private MobileDataStore mobileDataStore;
-    private Api api;
+    private MobileLocalDataStore mobileLocalDataStore;
+    private MobileRemoteDataStore mobileRemoteDataStore;
     private ArrayList<Mobile> mobileArrayList = new ArrayList<>();
 
-    public MobileListPresenter(IMobileList.View view, MobileDataStore mobileDataStore, Api api){
+    public MobileListPresenter(IMobileList.View view, MobileLocalDataStore mobileLocalDataStore, MobileRemoteDataStore mobileRemoteDataStore){
         this.view = view;
-        this.mobileDataStore = mobileDataStore;
-        this.api = api;
+        this.mobileLocalDataStore = mobileLocalDataStore;
+        this.mobileRemoteDataStore = mobileRemoteDataStore;
     }
 
     @Override
     public void getMobileList() {
 
-        mobileArrayList.addAll(mobileDataStore.getAllMobiles());
+        mobileArrayList.addAll(mobileLocalDataStore.getAllMobiles());
 
         if(mobileArrayList.isEmpty()){
             getMobileFromApi();
@@ -39,46 +39,42 @@ public class MobileListPresenter implements IMobileList.Presenter {
 
     private void getMobileFromApi(){
 
-        Call<List<Mobile>> call = api.getMobiles();
-
-        call.enqueue(new Callback<List<Mobile>>() {
+        mobileRemoteDataStore.getMobiles(new MobileRemoteDataStore.MobileDataResult<Mobile>() {
             @Override
-            public void onResponse(Call<List<Mobile>> call, Response<List<Mobile>> response) {
-
-                List<Mobile> mobiles = response.body();
-                mobileArrayList.addAll(mobiles);
-
-                for (Mobile mobile : mobiles) {
-                    mobileDataStore.saveMobile(mobile);
-                }
-
-                view.populateList(mobileArrayList);
+            public void onSuccess(ArrayList<Mobile> result) {
+                saveMobileToLocalDatabase(result);
+                view.populateList(result);
             }
 
             @Override
-            public void onFailure(Call<List<Mobile>> call, Throwable t) {
+            public void onError(String error) {
 
             }
         });
     }
 
+    private void saveMobileToLocalDatabase(ArrayList<Mobile> mobiles){
+        for (Mobile mobile : mobiles) {
+            mobileLocalDataStore.saveMobile(mobile);
+        }
+    }
+
     @Override
     public void makeFavorite(Mobile mobile) {
-
-        mobileDataStore.makeFavorite(mobile);
+        mobileLocalDataStore.makeFavorite(mobile);
     }
 
     @Override
     public void removeFromFavorite(Mobile mobile) {
 
-        mobileDataStore.removeFromFavorite(mobile);
+        mobileLocalDataStore.removeFromFavorite(mobile);
     }
 
     @Override
     public void getMobileListByPriceAscending() {
 
         mobileArrayList.clear();
-        mobileArrayList.addAll(mobileDataStore.getAllMobilesByPriceAscending());
+        mobileArrayList.addAll(mobileLocalDataStore.getAllMobilesByPriceAscending());
         view.populateList(mobileArrayList);
     }
 
@@ -86,7 +82,7 @@ public class MobileListPresenter implements IMobileList.Presenter {
     public void getMobileListByPriceDescending() {
 
         mobileArrayList.clear();
-        mobileArrayList.addAll(mobileDataStore.getAllMobilesByPriceDescending());
+        mobileArrayList.addAll(mobileLocalDataStore.getAllMobilesByPriceDescending());
         view.populateList(mobileArrayList);
     }
 
@@ -94,7 +90,7 @@ public class MobileListPresenter implements IMobileList.Presenter {
     public void getMobileListByRating() {
 
         mobileArrayList.clear();
-        mobileArrayList.addAll(mobileDataStore.getAllMobilesByRating());
+        mobileArrayList.addAll(mobileLocalDataStore.getAllMobilesByRating());
         view.populateList(mobileArrayList);
     }
 }
