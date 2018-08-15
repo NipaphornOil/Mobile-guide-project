@@ -6,7 +6,7 @@
 
         <variable
             name="viewmodel"
-            type="com.playbasis.pb.mobilephonescb.presentation.detail.MobileDetailViewModel" />
+            type="com.playbasis.pb.mobileguide.presentation.detail.MobileDetailViewModel" />
     </data>
 
     <RelativeLayout
@@ -35,6 +35,8 @@
                     android:layout_height="200dp">
 
                 </android.support.v7.widget.RecyclerView>
+
+
 
                 <TextView
                     android:id="@+id/d_mobile_name"
